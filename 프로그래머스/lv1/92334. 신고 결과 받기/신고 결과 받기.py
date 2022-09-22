@@ -1,9 +1,9 @@
 def solution(id_list, report, k):
     answer = []
     
-    #1. 신고당한 사람의 횟수만 알자 frodo 2번, neo 2번, Muzi 1번 => values로 알 수 있음
+    #1. id_list를 기반으로 기본 dictionary key(신고한 사람), value(신고할 유저 id)생성
     #2. k이상 신고당한 사람의 이름 알기
-    #3. 신고당한 사람 있으면 뱉기
+    #3. 이름 기반으로 메일 보낼 횟수 count 
     
     id_dict = {}
     
@@ -14,6 +14,8 @@ def solution(id_list, report, k):
         key, value = data.split(' ')
         id_dict[key].append(value)
         
+        
+    #unpacking 한 튜플로 신고당한 횟수 구함    
     temp = ()
     for row in list(id_dict.values()):
         if row:
@@ -33,59 +35,5 @@ def solution(id_list, report, k):
                 else:
                     count += 0
         answer.append(count)
-        
-        
-    # #2) unpacking 한 튜플로 신고당한 횟수 구함   
-    # for data in temp: 
-    #     if data in report_dict.keys():
-    #         report_dict[data] += 1
-    
-
-#     id_dict = {}
-#     report_dict = {}
-#     report_name = []
-    
-    
-#     report = list(set(report))
-#     print(report)
-    
-#     for key in id_list:
-#         id_dict[key] = None
-
-#     for key in id_list:
-#         report_dict[key] = 0
-    
-#     #유저가 신고한 아이디 정리
-#     for data in report:
-#         key, value = data.split(' ')
-#         if not id_dict[key]: #None
-#             id_dict[key] = [value]
-#         else:
-#             if value not in id_dict[key]:
-#                 id_dict[key].append(value)
-    
-#     #신고한 아이디의 값을 통해 신고 당한 횟수 정리
-#     #1) list unpacking
-#     temp = ()
-#     for row in list(id_dict.values()):
-#         if row:
-#             temp = temp + (*row,)
-            
-#     #2) unpacking 한 튜플로 신고당한 횟수 구함   
-#     for data in temp: 
-#         if data in report_dict.keys():
-#             report_dict[data] += 1
-    
-#     #신고당한 사람 이름 알았음
-#     for key, value in report_dict.items():
-#         if value >= int(k):
-#             report_name.append(key)
-
-#     for data in id_dict.values():
-#         if data is not None and report_name:
-#             temp = list(set(report_name) - set(data))
-#             answer.append(k - len(temp))
-#         else:
-#             answer.append(0)
     
     return answer
