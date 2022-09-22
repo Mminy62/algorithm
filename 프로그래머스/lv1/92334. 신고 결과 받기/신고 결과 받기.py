@@ -1,9 +1,9 @@
 def solution(id_list, report, k):
     answer = []
     
-    #1. 신고당한 사람의 횟수만 알자 frodo 2번, neo 2번, Muzi 1번 => values로 알 수 있음
+    #1. id_list를 기반으로 기본 dictionary key(신고한 사람), value(신고할 유저 id)생성
     #2. k이상 신고당한 사람의 이름 알기
-    #3. 신고당한 사람 있으면 뱉기
+    #3. 이름 기반으로 메일 보낼 횟수 count 
     
     id_dict = {}
     
