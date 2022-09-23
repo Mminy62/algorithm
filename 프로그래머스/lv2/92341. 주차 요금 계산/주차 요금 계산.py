@@ -19,8 +19,7 @@ def solution(fees, records):
     for key, values in carNum.items():
         parktime = 0
         
-        if len(values) % 2 == 0: #짝수면 다 계산 
-            for i in range(0, len(values), 2): #4: 0, 2
+        for i in range(0, len(values)-1, 2): #4: 0, 2
                 time_1 = datetime.strptime(values[i], "%H:%M")
                 time_2 = datetime.strptime(values[i+1], "%H:%M")
                 
@@ -28,25 +27,15 @@ def solution(fees, records):
                 
                 parktime += time_interval
             
-            carNum[key] = parktime
-        else: #출차기록 없는 경우
-            for i in range(0, len(values)-1,2): #5: 0, 2
-                time_1 = datetime.strptime(values[i], "%H:%M")
-                time_2 = datetime.strptime(values[i+1], "%H:%M")
-                
-                time_interval = round((time_2-time_1).seconds / 60)
-                
-                parktime += time_interval
-            
+        if len(values) % 2 != 0: #홀수면 출차 안한 차 더 계산
             time_1 = datetime.strptime(values[-1], "%H:%M")
             time_2 = datetime.strptime('23:59', "%H:%M")
             time_interval = round((time_2-time_1).seconds / 60)
             parktime += time_interval
+        
+        carNum[key] = parktime
             
-            carNum[key] = parktime
-            
-            
-    for k, v in sorted(carNum.items()):
+    for k, v in sorted(carNum.items()):#요금 계산
         if v > fees[0]:
             result = fees[1] + math.ceil((v - fees[0])/fees[2])*fees[3]
         else:
