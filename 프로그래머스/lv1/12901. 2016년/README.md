@@ -44,7 +44,7 @@
       </table>
       
 <hr>
-- another answer
+- another answer<br>
 using datetime.weekday()
 <img src=./datetime_img.png>
 
