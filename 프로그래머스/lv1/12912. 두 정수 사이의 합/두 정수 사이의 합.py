@@ -1,6 +1,5 @@
 def solution(a, b):
     answer = 0
     
-    if a > b: a, b = b, a
+    return (abs(a-b)+1)*(a+b)//2
     
-    return sum(range(a, b+1))
