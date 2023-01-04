@@ -1,4 +1,5 @@
-import numpy
+#import numpy
 def solution(arr):
     answer = 0
-    return numpy.mean(arr)
+    
+    return sum(arr)/len(arr)
