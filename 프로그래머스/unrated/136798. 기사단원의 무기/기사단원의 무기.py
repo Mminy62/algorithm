@@ -6,13 +6,10 @@ def solution(number, limit, power):
         for i in range(1, int(n ** 0.5)+1):
             if n % i == 0:
                 temp.append(i)
-                if i ** 2 != n:
-                    temp.append(n//i)
-        
-        arms.append(len(temp))
-    
-    for i, v in enumerate(arms):
-        if v > limit:
-            arms[i] = power
+                temp.append(n//i)
+                # if i ** 2 != n:
+                #     temp.append(n//i)
+        temp = set(temp)
+        arms.append(power if len(temp) > limit else len(temp))
     
     return sum(arms)
