@@ -4,7 +4,7 @@ def solution(s):
     y = 0
     start = 0
     
-    for i, c in enumerate(s):
+    for c in s:
         if not start:
             start = c
             x += 1
