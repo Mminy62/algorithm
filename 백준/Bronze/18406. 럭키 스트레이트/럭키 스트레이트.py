@@ -1,9 +1,9 @@
-n = input()
+n = list(map(int, input()))
 
-front = list(map(int, n[0:len(n)//2]))
-back = list(map(int, n[len(n)//2:]))
+be = n[0:len(n)//2]
+af = n[len(n)//2:]
 
-if sum(front) == sum(back):
-    print('LUCKY')
+if sum(be) == sum(af):
+    print("LUCKY")
 else:
-    print('READY')
+    print("READY")
