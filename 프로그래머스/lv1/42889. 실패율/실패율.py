@@ -9,7 +9,6 @@ def solution(N, stages):
         else:
             result[i] = 0
     
-    #result = sorted(result.items(), key = lambda item : item[1], reverse = True)
-    
-    
     return sorted(result, key=lambda x : result[x], reverse=True)
+    # result = sorted(result.items(), key = lambda item : item[1], reverse = True)
+    # return list(dict(result).keys())
