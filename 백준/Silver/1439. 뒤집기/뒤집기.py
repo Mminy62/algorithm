@@ -1,10 +1,12 @@
-data = input()
-temp = data[0]
-result = 0
+n = list(map(int, input()))
+before = n[0]
+first = n[0]
+cnt = 0
 
-for i in range(1, len(data)):
-    if temp != data[i]:
-        result += 1
-        temp = data[i]
+for data in n:
+    if before != data:
+        if before == first:
+            cnt += 1
+        before = data
 
-print((result + 1)//2)
+print(cnt)
