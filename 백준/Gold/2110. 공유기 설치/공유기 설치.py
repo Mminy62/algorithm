@@ -19,6 +19,8 @@ def binary_search(array, n, c):
             if array[i] >= value + mid:
                 value = array[i]
                 count += 1
+            if count == c:
+                break
         if count >= c:
             start = mid + 1
             result = mid
