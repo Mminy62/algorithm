@@ -10,14 +10,8 @@ def solution(n, words):
         pre = words[i-1]
         word = words[i]
         if pre[-1] != word[0] or word in words[:i] or len(word) == 1:
-            if (i + 1) < n:
-                mem = i + 1
-                cnt = 1
-            else:
-                mem = (i + 1) % n
-                if mem == 0:
-                    mem = n
-                cnt = math.ceil((i + 1) / n)
+            mem = (i % n) + 1
+            cnt = i // n + 1
             break
         
     if cnt == 0:
