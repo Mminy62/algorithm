@@ -1,14 +1,3 @@
-
-'''
-11:15-45
-
-A가 올바른 괄호문자면 
-
-AB도 올바른것
-
-stack, pop 해서 올바른지 아닌지 확인
-({})
-'''
 def solution(s):
     answer = 0
     
@@ -16,10 +5,7 @@ def solution(s):
     right = [')', ']', '}']
     
     for x in range(len(s)):
-        if x == len(s) - 1:
-            temp = s[-1] + s[:x]
-        else: 
-            temp = s[x:] + s[:x]
+        temp = s[x:] + s[:x]
         stack = [temp[0]]
         
         for i in range(1, len(temp)):
