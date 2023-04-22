@@ -1,19 +1,12 @@
 import re
-expr = input()
-nums = list(map(int, re.split('[-+]', expr)))
-ops = re.split('[0-9]', expr)
-ops = list(filter(lambda x: x != '', ops))
+strings = input()
+ops = re.split('[0-9]+', strings)[1:-1]
+nums = list(map(int, re.split('[-+]', strings)))
 
-result = nums[0]
+result = 0
+i = len(nums)
+if '-' in strings:
+    i = ops.index('-')
 
-for i in range(1, len(ops)):
-    if ops[i-1] == '-' and ops[i] == '+':
-        ops[i] = '-'
-
-for i in range(len(ops)):
-    if ops[i] == '-':
-        result -= nums[i + 1]
-    else:
-        result += nums[i + 1]
-
+result = sum(nums[:i+1]) - (sum(nums[i+1:]))
 print(result)
