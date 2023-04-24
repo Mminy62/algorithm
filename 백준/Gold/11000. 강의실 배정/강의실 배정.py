@@ -1,8 +1,10 @@
 import heapq
+import sys
+input = sys.stdin.readline
+
 n = int(input())
 classes = []
 room = []
-cnt = 0
 
 for _ in range(n):
     classes.append(list(map(int, input().split())))
