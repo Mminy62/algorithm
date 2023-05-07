@@ -3,9 +3,7 @@ n, m = map(int, input().split())
 
 graph = []
 for _ in range(n):
-    graph.append(list(map(int, list(input()))))
-
-visited = [[False] * m for _ in range(n)]
+    graph.append(list(map(int, input())))
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
@@ -22,9 +20,8 @@ while(q):
             continue
         if graph[nx][ny] == 0:
             continue
-        if graph[nx][ny] == 1 and not visited[nx][ny]:
+        if graph[nx][ny] == 1:
             graph[nx][ny] += graph[x][y]
             q.append((nx, ny))
-            visited[nx][ny] = True
 
 print(graph[n-1][m-1])
