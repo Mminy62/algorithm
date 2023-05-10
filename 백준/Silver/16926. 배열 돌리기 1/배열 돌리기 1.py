@@ -1,4 +1,6 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
 
 n, m, r = map(int, input().split())
 array = []
