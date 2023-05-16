@@ -18,14 +18,9 @@ for i in range(1, n-1):
 
 # 2. 벌통이 가장 오른쪽에 있는 경우, 첫 벌은 가장 왼쪽에 있다.
 rans = 0
-right_dp = []
-for i in range(n-1, -1, -1):
-    right_dp.append(sum(data[i:n]))
 
-right_dp.reverse()
-
-for i in range(n-2, 0, -1):
-    rans = max(rans, right_dp[1] + right_dp[i+1] - data[i])
+for i in range(1, n-1):
+    rans = max(rans, left_dp[n-1] - data[0] - data[i] + left_dp[n-1] - left_dp[i])
 
 #3. 벌이 양쪽에 있고 가운데에 통이 있는 경우
 cans = 0
