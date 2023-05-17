@@ -1,21 +1,20 @@
 import sys
+import heapq
 input = sys.stdin.readline
 
 n = int(input())
-
-points = [tuple(map(int,input().split())) for _ in range(n)]
 lines = []
+heap = []
+for i in range(n):
+    lines.append(tuple(map(int, input().split())))
+    
+lines.sort()
+maxLen = 0
 
-for s, e in points:
-    lines.append((s, 1))
-    lines.append((e, -1))
-
-lines.sort(key=lambda x: (x[0], x[1]))
-
-cnt = 0
-ans = 0
-for s, v in lines:
-    cnt += v
-    ans = max(ans, cnt)
-
-print(ans)
+for s, e in lines:
+    while heap and heap[0] <= s:
+        heapq.heappop(heap)
+    heapq.heappush(heap, e)
+    if maxLen < len(heap):
+        maxLen = len(heap)
+print(maxLen)
