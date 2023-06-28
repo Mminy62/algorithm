@@ -28,9 +28,8 @@ for _ in range(tc):
                 else:
                     del stack[-1]
         
-        if not stack:
-            result.append(stack)
-        elif flag:
+
+        if flag:
             result.append('[' + ','.join(stack) + ']')
         else:
             result.append('[' + ','.join(stack[::-1]) + ']')
