@@ -1,91 +1,104 @@
 from copy import deepcopy
-
 n = int(input())
+board = []
+for _ in range(n):
+    board.append(list(map(int, input().split())))
 
-graph = []
-for i in range(n):
-    graph.append(list(map(int, input().split())))
+def up(board):
+    for y in range(n):
+        pointer = 0
+        for x in range(1, n):
+            temp = board[x][y]
+            if board[x][y]:# 현재 위치에 값이 있는 경우만
+                # 값이 없는 경우, 이동 후 포인터는 안옮기기
+                if board[pointer][y] == 0:
+                    board[pointer][y] = board[x][y]
+                    board[x][y] = 0
 
-def move(board, dir):
-    if dir == 0:  # 동쪽
-        for i in range(n):
-            top = n - 1
-            for j in range(n - 2, -1, -1):
-                if board[i][j]:
-                    tmp = board[i][j]
-                    board[i][j] = 0
-                    if board[i][top] == 0:
-                        board[i][top] = tmp
-                    elif board[i][top] == tmp:
-                        board[i][top] = tmp * 2
-                        top -= 1
-                    else:
-                        top -= 1
-                        board[i][top] = tmp
+                else:#포인터에 값이 있는 경우
+                    if board[pointer][y] == board[x][y]:
+                        board[pointer][y] *= 2
+                        board[x][y] = 0
+                        pointer += 1
+                    else: #안 같으면
+                        pointer += 1
+                        board[x][y] = 0
+                        board[pointer][y] = temp
+    return board
 
-    elif dir == 1:  # 서쪽
-        for i in range(n):
-            top = 0
-            for j in range(1, n):
-                if board[i][j]:
-                    tmp = board[i][j]
-                    board[i][j] = 0
-                    if board[i][top] == 0:
-                        board[i][top] = tmp
-                    elif board[i][top] == tmp:
-                        board[i][top] = tmp * 2
-                        top += 1
-                    else:
-                        top += 1
-                        board[i][top] = tmp
+def down(board):
+    for y in range(n):
+        pointer = n-1
+        for x in range(n-2, -1, -1):
+            temp = board[x][y]
+            if board[x][y]:# 현재 위치에 값이 있는 경우만
+                # 값이 없는 경우, 이동 후 포인터는 안옮기기
+                if board[pointer][y] == 0:
+                    board[pointer][y] = board[x][y]
+                    board[x][y] = 0
 
-    elif dir == 2:  # 남쪽
-        for j in range(n):
-            top = n - 1
-            for i in range(n - 2, -1, -1):
-                if board[i][j]:
-                    tmp = board[i][j]
-                    board[i][j] = 0
-                    if board[top][j] == 0:
-                        board[top][j] = tmp
-                    elif board[top][j] == tmp:
-                        board[top][j] = tmp * 2
-                        top -= 1
-                    else:
-                        top -= 1
-                        board[top][j] = tmp
+                else:#포인터에 값이 있는 경우
+                    if board[pointer][y] == board[x][y]:
+                        board[pointer][y] *= 2
+                        board[x][y] = 0
+                        pointer -= 1
+                    else: #안 같으면
+                        pointer -= 1
+                        board[x][y] = 0
+                        board[pointer][y] = temp
+    return board
 
-    else:
-        for j in range(n):
-            top = 0
-            for i in range(1, n):
-                if board[i][j]:
-                    tmp = board[i][j]
-                    board[i][j] = 0
-                    if board[top][j] == 0:
-                        board[top][j] = tmp
-                    elif board[top][j] == tmp:
-                        board[top][j] = tmp * 2
-                        top += 1
-                    else:
-                        top += 1
-                        board[top][j] = tmp
+def left(board):
+    for x in range(n):
+        pointer = 0
+        for y in range(1, n):
+            temp = board[x][y]
+            if board[x][y]:# 현재 위치에 값이 있는 경우만
+                # 값이 없는 경우, 이동 후 포인터는 안옮기기
+                if board[x][pointer] == 0:
+                    board[x][pointer] = board[x][y]
+                    board[x][y] = 0
+
+                else:#포인터에 값이 있는 경우
+                    if board[x][pointer] == board[x][y]: #같은 경우
+                        board[x][pointer] *= 2
+                        board[x][y] = 0
+                        pointer += 1
+                    else: #안 같으면
+                        pointer += 1
+                        board[x][y] = 0
+                        board[x][pointer] = temp
 
     return board
 
+def right(board):
+    for x in range(n):
+        pointer = n-1
+        for y in range(n-2, -1, -1):
+            temp = board[x][y]
+            if board[x][y]:# 현재 위치에 값이 있는 경우만
+                # 값이 없는 경우, 이동 후 포인터는 안옮기기
+                if board[x][pointer] == 0:
+                    board[x][pointer] = board[x][y]
+                    board[x][y] = 0
+
+                else:#포인터에 값이 있는 경우
+                    if board[x][pointer] == board[x][y]: #같은 경우
+                        board[x][pointer] *= 2
+                        board[x][y] = 0
+                        pointer -= 1
+                    else: #안 같으면
+                        pointer -= 1
+                        board[x][y] = 0
+                        board[x][pointer] = temp
+
+    return board
 
 def dfs(board, cnt):
-    global ans
     if cnt == 5:
-        for i in range(n):
-            for j in range(n):
-                ans = max(ans, board[i][j])
-        return
+        return max(map(max, board))
 
-    for i in range(4):
-        tmp_board = move(deepcopy(board), i)
-        dfs(tmp_board, cnt + 1)
+    return max(dfs(up(deepcopy(board)), cnt + 1), dfs(down(deepcopy(board)), cnt + 1), dfs(left(deepcopy(board)), cnt + 1), dfs(right(deepcopy(board)), cnt + 1))
 
-ans = 0
-dfs(graph, 0)
-print(ans)
+
+print(dfs(board, 0))
