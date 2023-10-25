@@ -3,7 +3,7 @@ def solution(n, times):
     times.sort()
     
     start = times[0]
-    end = times[-1] * n
+    end = times[-1] * (n // len(times) + 1)
     
     while start <= end:
         mid = (start + end) // 2
