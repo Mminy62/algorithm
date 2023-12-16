@@ -1,28 +1,22 @@
 import sys
 input = sys.stdin.readline
 
-n = int(input())
-array = [(0, 0)]
-dp = [0] * (n+1)
+N = int(input())
 
-for _ in range(n):
-    array.append(tuple(map(int, input().split())))
+arr = []
+for _ in range(N):
+    t, c = map(int, input().split())
+    arr.append([t, c])
 
-if array[-1][0] == 1:
-    dp[-1] = array[-1][1]
+dp = [0] * (N + 1)
 
-for i in range(n-1, 0, -1):
-    time, pay = array[i]
-
-    next_day = i + time
-    if next_day > n + 1:
-        dp[i] = dp[i + 1]
+for i in range(N-1, -1, -1):
+    ntime = i + arr[i][0]
+    if i + arr[i][0] > N:
+        cost = 0
+        dp[i] = max(cost, dp[i + 1])
         continue
-    if next_day == n + 1:
-        next_day = max(dp[n], pay)
-    else:
-        next_day = pay + dp[next_day]
+    cost = arr[i][1] + dp[ntime]
+    dp[i] = max(dp[i + 1], cost)
 
-    dp[i] = max(dp[i + 1], next_day)
-
-print(dp[1])
+print(dp[0])
