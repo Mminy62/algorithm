@@ -1,27 +1,37 @@
 n = int(input())
-calendar = []
-height = [0] * 366
-
+dates = []
 for _ in range(n):
-    a, b = map(int, input().split())
-    for i in range(a, b + 1):
-        height[i] += 1
-    calendar.append([a, b])
+    dates.append(tuple(map(int, input().split())))
 
-calendar.sort()
+dates.sort(key=lambda x: (x[0], -(x[1]-x[0])))
+
 result = 0
-s, e = calendar[0]
+width = 0
+start, end = 0, 0
+#시작-끝에 높이 배열을 준다
+heights = [0] * 366
 
-for a, b in calendar[1:]:
-    if e+1 < a:
-        result += (e-s + 1) * max(height[s:e+1])
-        height[e] = 0
-        s = a
+for s2, e2 in dates:
+    for i in range(s2, e2 + 1):
+        heights[i] += 1
 
-    if b > e:
-        e = max(b, e)
+    if start == 0:
+        start = s2
+        end = e2
+        continue
 
-if height[e]:
-    result += (e-s + 1) * max(height[s:e+1])
+    if end + 1 < s2:
+        width = (end + 1) - start
+        height = max(heights[start: end + 1])
+        result += width * max(heights[start: end + 1])
+        start = s2
+
+    if e2 > end:
+        end = e2
+
+# 마지막 값
+width = (end + 1) - start
+height = max(heights[start: end + 1])
+result += width * max(heights[start: end + 1])
 
 print(result)
