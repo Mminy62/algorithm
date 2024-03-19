@@ -20,7 +20,7 @@ for _ in range(M):
 for k in range(N + 1):
     for i in range(N + 1):
         for j in range(N + 1):
-            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+            graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
 
 cities = [i for i in range(1, N + 1)]# 조합으로 2개씩 뽑아놓은것 만들기
 chickens = list(combinations(cities, 2))
