@@ -1,23 +1,18 @@
-n, k = map(int, input().split())
+N, K = map(int, input().split())
+array = [0]
+for _ in range(N):
+    array.append(list(map(int, input().split())))
 
-array = []
-for _ in range(n):
-    w, v = map(int, input().split())
-    array.append((w, v))
+dp = [[0] * (K + 1) for _ in range(N + 1)]
 
-array.sort(key=lambda x: (x[0],-x[1]))
+# 무게에 대해 물건이 포함 되는지 안되는지 확인
+for i in range(1, N + 1):
+    w, v = array[i]
 
-dp = [[0] * (k + 1) for _ in range(n + 1)]
-
-for i in range(1, n + 1):
-    for j in range(k+1):
-        w, v = array[i-1][0], array[i-1][1]
-        if j-w >= 0:
-            dp[i][j] = max(dp[i-1][j-w] + v, dp[i-1][j])
+    for kg in range(K + 1):
+        if kg - w >= 0:
+            dp[i][kg] = max(dp[i-1][kg], dp[i-1][kg-w] + v)
         else:
-            dp[i][j] = dp[i-1][j]
-# 
-# for _ in range(1, n + 1):
-#     print(dp[_])
+            dp[i][kg] = dp[i-1][kg]
 
-print(dp[n][k])
+print(dp[-1][-1])
