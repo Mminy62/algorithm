@@ -1,21 +1,19 @@
 A, B = map(int, input().split())
-result = []
-def dfs(origin, cnt):
-    if origin > B:
-        return -1
-    if origin == B:
-        return cnt
-    else:
 
-        result1 = dfs(origin * 2, cnt + 1)
-        temp = str(origin) + '1'
-        result2 = dfs(int(temp), cnt + 1)
-        if result1 == -1 and result2 == -1:
-            return -1
-        elif result1 == -1 or result2 == -1:
-            return max(result1, result2)
-        else:
-            return min(result1, result2)
+cnt = 0
+#top-down 방식
+while B > A:
+    cnt += 1
+    temp = B
 
+    if B % 10 == 1:
+        B //= 10
+    elif B % 2 == 0:
+        B //= 2
+    if temp == B:
+        break
 
-print(dfs(A, 1))
+if B != A:
+    print(-1)
+else:
+    print(cnt + 1)
