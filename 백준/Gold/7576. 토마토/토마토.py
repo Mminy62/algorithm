@@ -1,60 +1,52 @@
-import sys
 from collections import deque
+import sys
 input = sys.stdin.readline
-
-m, n = map(int, input().split())
-array = []
+M, N = map(int, input().split())
+arr = []
 q = deque([])
+for i in range(N):
+    temp = list(map(int, input().split()))
+    pos = [i for i in range(M) if temp[i] == 1]
+    for j in pos:
+        q.append((i, j, 0))
+    arr.append(temp)
 
-# visited 초기화
-visited = [[False] * m for _ in range(n)]
-# input -> array
-
-for i in range(n):
-    row = list(map(int, input().split()))
-    for j, value in enumerate(row):
-        if value == 1:
-            q.append((i, j))
-            visited[i][j] = True
-        if value == -1:
-            visited[i][j] = True
-    array.append(row)
-
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-days = 0
+flag = False
+for i in range(N):
+    if 0 in arr[i]:
+        break
+    if i == N - 1:
+        flag = True
 
 def BFS(q):
-    next_q = deque([])
-    for _ in range(len(q)):
-        x, y = q.popleft()
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
 
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
+    while q:
+        x, y, cnt = q.popleft()
 
-            if nx < 0 or nx >= n or ny < 0 or ny >= m:
+        for k in range(4):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            if nx < 0 or nx >= N or ny < 0 or ny >= M:
                 continue
-            if array[nx][ny] == -1:
-                visited[nx][ny] = True
+            if arr[nx][ny] != 0:
                 continue
-            if array[nx][ny] == 0 and not visited[nx][ny]:
-                array[nx][ny] = 1
-                visited[nx][ny] = True
-                next_q.append((nx, ny))
+            if arr[nx][ny] == 0:
+                arr[nx][ny] = cnt + 1
+                q.append((nx, ny, cnt + 1))
 
-    return next_q
+answer = -1
+if not flag:
+    BFS(q)
 
-def check(days):
-    for i in range(n):
-        if False in visited[i]:
-            return -1
-    if days:
-        days -= 1
-    return days
+    for i in range(N):
+        if 0 in arr[i]:
+            answer = -1
+            break
+        else:
+            answer = max(answer, max(arr[i]))
+else:
+    answer = 0
 
-while q:
-    q = BFS(q)
-    days += 1
-
-print(check(days))
+print(answer)
