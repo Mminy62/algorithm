@@ -11,6 +11,9 @@ def moving(desk, time):
         for i in range(n):
             gap = time - desk[name][i][0]
             desk[name][i][0] = time
+            # 이전 item이 있던 table 번호 저장
+            desk[name][i][2] = desk[name][i][1]
+            desk[name][i][3] = gap
             desk[name][i][1] = (desk[name][i][1] + gap) % L
 
     return desk
@@ -29,11 +32,22 @@ def eating(person, desk):
             continue
         temp = deepcopy(desk[name])
         # print(temp)
-        for item_time, item_x in temp:
+        for item_time, item_x, item_prex, item_move_cnt in temp:
             if person_n > 0 and item_x == person_table:
-                desk[name].remove([item_time, item_x])
+                desk[name].remove([item_time, item_x, item_prex, item_move_cnt])
                 person[name][2] -= 1
-            if person_n > 0 and item_x != person_table and item_x
+            if person_n > 0 and item_x != person_table:
+                temp = item_prex + item_move_cnt
+
+                if person_table == 0:
+                    if temp // L > 0:
+                        desk[name].remove([item_time, item_x, item_prex, item_move_cnt])
+                        person[name][2] -= 1
+                else:# 사람의 테이블 번호가 양수일 땐
+                    # 나보다 크거나 같을때
+                    if item_prex <= person_table and person_table <= temp:
+                        desk[name].remove([item_time, item_x, item_prex, item_move_cnt])
+                        person[name][2] -= 1
             if person_n == 0:
                 continue
     # n이 0된사람 지우기
@@ -74,9 +88,9 @@ for _ in range(Q):
         desk = moving(desk, t)
 
         if name not in desk.keys(): #(t, x)
-            desk[name] = [[t, [x, 0]]]
+            desk[name] = [[t, x, x, 0]]
         else:
-            desk[name].append([t, [x, 0]])
+            desk[name].append([t, x, x, 0])
 
         person, desk = eating(person, desk)
 
@@ -91,7 +105,6 @@ for _ in range(Q):
         t = int(cmd[1])
         desk = moving(desk, t)
         person, desk = eating(person, desk)
-        print(person, desk)
         print(' '.join(map(str, count(person, desk))))
 
 
