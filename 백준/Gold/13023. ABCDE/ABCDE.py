@@ -1,38 +1,43 @@
-import sys
-from collections import deque
-input = sys.stdin.readline
-
+from collections import defaultdict
 n, m = map(int, input().split())
-graph = [[] for _ in range(n)]
+
+# a, b, c, d, e가 되는지 각 시작점마다 확인 => 2000개 * 2000 10 ** 6
+graph = defaultdict(list)
 
 for _ in range(m):
     a, b = map(int, input().split())
     graph[a].append(b)
     graph[b].append(a)
 
-result = 0
-stack = deque([])
-
-def dfs(cur, cnt):
-    global result
-
-    if cnt == 5:
-        result = 1
+people = graph.keys()
+answer = False
+visited = []
+def dfs(start, stack):
+    global answer
+    global visited
+    if len(stack) == 5:
+        answer = True
         return
 
-    for next in graph[cur]:
-        if next not in stack:
-            stack.append(next)
-            dfs(next, cnt + 1)
-            stack.pop()
+    for friend in graph[start]:
+        # notin
+        if not visited[friend]:
+            visited[friend] = True
+            dfs(friend, stack + [friend])
+            visited[friend] = False
 
     return
 
-for i in range(n):
-    stack.append(i)
-    dfs(i, 1)
-    if result:
-        break
-    stack.pop()
 
-print(result)
+for start in people:
+    visited = [False] * n
+    visited[start] = True
+    stack = [start]
+    dfs(start, stack)
+    if answer:
+        break
+
+if answer:
+    print(1)
+else:
+    print(0)
