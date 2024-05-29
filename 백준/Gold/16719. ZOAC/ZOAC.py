@@ -1,16 +1,18 @@
-arr = list(input().rstrip())
+word = list(input())
+arr = [''] * len(word)
+word_list = list(enumerate(word))
+n = len(word)
 
-result = [""] * len(arr)
+for _ in range(n):
+    temp = []
+    for item in word_list:
+        idx, value = item
+        arr[idx] = value
+        temp.append((''.join(arr), idx, value))
+        arr[idx] = ''
 
-def solution(start, arr):
-    if not arr:
-        return
-
-    min_value = min(arr)
-    temp = arr.index(min_value)
-    result[start + temp] = min_value
-    print(''.join(result))
-    solution(start + temp + 1, arr[temp + 1:])
-    solution(start, arr[:temp])
-
-solution(0, arr)
+    temp.sort()
+    w, idx, value = temp[0]
+    arr[idx] = value
+    print(w)
+    word_list.remove((idx, value))
