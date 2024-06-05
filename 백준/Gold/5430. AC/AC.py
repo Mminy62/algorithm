@@ -1,40 +1,37 @@
-import sys
-input = sys.stdin.readline
+from collections import deque
 
+T = int(input())
+for _ in range(T):
+    cmds = input()
+    cmds = cmds.replace("RR", "")
+    n = int(input())
+    temp = input()
+    arr = deque([])
+    if n:
+        arr = deque(list(map(int, temp[1:-1].split(","))))
 
-tc = int(input())
-result = []
-for _ in range(tc):
-    cmds = input().rstrip()
-    length = int(input())
-    stack = input().rstrip()[1:-1].split(',')
     flag = True
 
-    if cmds.count('D') > length:
-        result.append('error')
-
-    else:
-        if 'RR' in cmds:
-            cmds = cmds.replace('RR', '')
-
-        for i in range(len(cmds)):
-
-            if cmds[i] == 'R':
-                flag = not flag
-
-            else:#'D'
-                if flag:
-                    del stack[0]
-                else:
-                    del stack[-1]
-        
-
-        if flag:
-            result.append('[' + ','.join(stack) + ']')
+    # 연산
+    answer = ""
+    for c in cmds:
+        if c == "R":
+            flag = not flag
         else:
-            result.append('[' + ','.join(stack[::-1]) + ']')
-            
+            if not arr:
+                answer = "error"
+                break
+            if flag:
+                arr.popleft()
+            else:
+                arr.pop()
 
+    if answer != "error":
+        if not arr:
+            answer = "[]"
+        elif flag:
+            answer = "[" + ','.join(map(str, arr)) + "]"
+        else:
+            answer = "[" + ','.join(map(str, reversed(arr))) + "]"
 
-for k in result:
-    print(k)
+    print(answer)
