@@ -1,0 +1,65 @@
+'''
+A, B
+각각의 dict를 만들어서 최대값의 대표값을 측정한다. 
+1. A,B의 몸에 대한 Counter dictionary
+2. keys를 기준으로 -2, +2에 대해서 Counter 측정
+'''
+from collections import Counter, deque
+n = int(input())
+arra = list(map(int, input().split()))
+arrb = list(map(int, input().split()))
+
+dica = Counter(arra)
+dicb = Counter(arrb)
+
+xa, xb = 0, 0
+acount = 0
+bcount = 0
+# 후보 키값에 -2, +2한 값도 넣자
+a_size = set(list(dica.keys()))
+b_size = set(list(dicb.keys()))
+for a in dica.keys():
+	for i in range(5):
+		if i == 3:
+			continue
+		a_size.add(a + i)
+
+for b in dicb.keys():
+	for i in range(5):
+		if i == 3:
+			continue
+		b_size.add(b + i)
+
+a_size = deque(a_size)
+b_size = deque(b_size)
+		
+while a_size:
+	a = a_size.popleft()
+	temp = 0
+	for i in range(5):
+		key = a - 2 + i
+		if key in dica:
+			temp += dica[key]
+
+	if acount < temp:
+		acount = temp
+		xa = a
+	
+
+while b_size:
+	b = b_size.popleft()
+	temp = 0
+	for i in range(5):
+		key = b - 2 + i
+		if key in dicb:
+			temp += dicb[key]
+
+	if bcount < temp:
+		bcount = temp
+		xb = b
+		
+print(xa, xb)
+if xa > xb:
+	print("good")
+else:
+	print("bad")
