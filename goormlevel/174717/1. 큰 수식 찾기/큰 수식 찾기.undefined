@@ -1,0 +1,78 @@
+'''
+A, B가 주어진다. 주어지는 수식은 모두 올바른 수식이며 
+수식의 첫문자와 마지막문자는 항상 숫자
+수의 맨 첫 문자가 0인 경우는 없다. 
+예를 들어 031과 같은 수는 주어지지 않는다. 
+
+연산자가 최소 하나 이상 포함되어 있다. 
+연산자가 붙어서 등장하는 경우는 없다. 
+연산자가 
+
+각 수식을 연산자 우선순위에 따라 계산했을 때, 두 수식의 계산 결과 중 더 큰 값을 출력하라 
+'''
+from collections import deque
+import re, sys
+A, B = input().split()
+
+# 우선순위가 먼저 있는 것이 있으면 꺼내서 계산한 후 다시 넣는다. 
+a_number_stack = []
+a_operator = []
+b_number_stack = []
+b_operator = []
+
+A = deque(re.split(r'([+|*|-])', A))
+B = deque(re.split(r'([+|*|-])', B))
+
+while A:
+	a = A.popleft()
+	if a.isdigit():
+		a_number_stack.append(int(a))
+	
+	else:
+		if a == "+" or a == "-":
+			a_operator.append(a)
+		else:
+			right = int(A.popleft())
+			left = a_number_stack.pop()
+			a_number_stack.append(left * right)
+
+while B:
+	b = B.popleft()
+	if b.isdigit():
+		b_number_stack.append(int(b))
+	
+	else:
+		if b == "+" or b == "-":
+			b_operator.append(b)
+		else:
+			right = int(B.popleft())
+			left = b_number_stack.pop()
+			b_number_stack.append(left * right)
+
+
+
+def calculate(operator, number_queue):
+	while operator:
+		oper = operator.popleft()
+		left = number_queue.popleft()
+		right = number_queue.popleft()
+
+		if oper == "+":
+			number_queue.appendleft(left + right)
+		else:
+			number_queue.appendleft(left - right)
+	
+	
+	return number_queue[0]
+
+
+result = -sys.maxsize
+a_operator = deque(a_operator)
+a_number_queue = deque(a_number_stack)
+result = max(result, calculate(a_operator, a_number_queue))
+
+b_operator = deque(b_operator)
+b_number_queue = deque(b_number_stack)
+result = max(result, calculate(b_operator, b_number_queue))
+
+print(result)
