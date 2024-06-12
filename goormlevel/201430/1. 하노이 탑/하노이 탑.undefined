@@ -1,0 +1,32 @@
+'''
+
+'''
+
+import sys
+sys.setrecursionlimit(10 ** 6)
+
+n = int(input())
+cnt = 0
+result = []
+
+def move(num, start, end):
+	global result, cnt
+	result.append((num, start, end))
+	cnt += 1
+
+def hanoi(N, start, to, end):
+	if N == 1:
+		move(N, start, to)
+		move(N, to, end)
+	else:
+		hanoi(N - 1, start, to, end)
+		move(N, start, to)
+		hanoi(N - 1, end, to, start)
+		move(N, to, end)
+		hanoi(N - 1, start, to, end)
+				
+
+hanoi(n, "A", "B", "C")
+for num, a, b in result:
+	print(f'{num} : {a}->{b}')
+print(len(result))
