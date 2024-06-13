@@ -1,0 +1,62 @@
+'''
+1-N개집 
+땅 높이는 해수면 기준
+해수면(0) 보다 낮으면 집의 높이가 음수일 수 있음
+M일동안 장마
+i일 되는 날에는 s, e 위치까지 비
+비 1일엔 물 높이 +1
+
+배수 시스템 작동 전까진 빠지지 않음
+
+배수 시스템은 장마가 시작된 지 3의 배수가 되는 날마다 비가 내리고 난 뒤-> 작동
+배수 시스템은 작동 날짜를 기준으로 2일 이내에 비가 내린 위치에만 작동
+	- 3일째 배수 시스템이면, 1, 2, 3일 이내로 비가 내린 위치 저장
+	- 각 날마다의 위치 기억(날 <= 10 ** 5) -> 배수 시스템 작동하면 저장 날짜 지우기 removeAll
+	- 배수 시스템은 모든 높이 -1한다 
+	- 마을의 땅 높이는 그 땅에 쌓였던 물의 높이만큼 증가 => 땅 높이에 물 높이 계속 더하기
+	- 
+	
+- s, e까지 
+N개 * 10 ** 5 장마기간 
+장마기간 값을 다 더해서 한꺼번에 10 5승끼리 따로 해서 나중에 더하면 안되나
+슬라이더
+
+
+3씩 나눠서 N개에 더해보자
+
+'''
+from collections import defaultdict
+N, M = map(int, input().split())
+
+houses = list(map(int, input().split()))
+
+rain = [0] * N
+drain = set()
+
+for day in range(M):
+	s, e = map(int, input().split())
+	for i in range(s - 1, e):
+		drain.add(i)
+		houses[i] += 1
+	
+	if day % 3 == 2:
+		# 배수 시스템
+		for num in drain:
+			houses[num] -= 1
+		drain = set()
+
+print(' '.join(map(str, houses)))
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
