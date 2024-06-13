@@ -1,0 +1,55 @@
+N = int(input())
+gx, gy = map(int, input().split())
+px, py = map(int, input().split())
+gx, gy = gx - 1, gy - 1
+px -= 1
+py -= 1
+
+gscore = 0
+pscore = 0
+
+board = []
+for _ in range(N):
+	board.append(list(input().split()))
+	
+def getScore(x, y):
+	global board
+	dic = {"L": (0, -1), "R": (0, 1), "U": (-1, 0), "D": (1, 0)}
+	
+	visited = [[False] * N for _ in range(N)]
+	visited[x][y] = True
+	score = 1
+	flag = False
+	
+	while True:
+		# 방문한 곳이면 하지 않는다. 
+		cmds = board[x][y]
+		cnt, di = int(cmds[0:-1]), cmds[-1]
+		dx, dy = dic[di]
+
+		# 그 과정 그대로 따라가는 것
+		for c in range(cnt):
+			nx, ny = (x + dx) % N, (y + dy) % N
+				
+			# 방문한 곳이면 멈추기
+			if visited[nx][ny]:
+				return score
+
+			if not visited[nx][ny]:
+				score += 1
+				visited[nx][ny] = True
+				x, y = nx, ny
+
+	return score
+
+gscore = getScore(gx, gy)
+pscore = getScore(px, py)
+
+if gscore > pscore:
+	print("goorm", gscore)
+else:
+	print("player", pscore)
+	
+
+
+
