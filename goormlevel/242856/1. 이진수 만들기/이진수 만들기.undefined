@@ -1,0 +1,12 @@
+num = int(input())
+result = ''
+
+while num > 1:
+	remain = str(num % 2)
+	num //= 2
+	result = remain + result
+
+if num == 1:
+	result = "1" + result
+
+print(result)
