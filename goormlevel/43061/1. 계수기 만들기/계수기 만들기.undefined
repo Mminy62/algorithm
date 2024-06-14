@@ -1,0 +1,41 @@
+'''
+N개의 자리수를 표시할 수 있다. 
+i번째 자리에는 0~Ai까지 표시 가능
+버튼을 한번 누르면 가장 오른쪽 자리의 숫자가 1증가
+	- 최대값 Ai보다 커지면, 0으로 초기화 -> 바로 왼쪽 자리의 숫자를 1증가
+	- 올림 원리
+	- 맨 왼쪽 인덱스 파악해서 안올리기,
+	- 맨 왼쪽모다 많으면 왼쪽건 무시하고, 맨 앞에거만 0으로 초기화
+'''
+
+N = int(input())
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))
+K = int(input())
+
+# 10 ** 5번할때마다 1더해서 -> 더할때마다, B의 끝에 값에 넣고 -> A 확인
+# 확인 후 B의 올림 과정(while, B[i]가 A[i]보다 작을때까지 // 9 * 10 ** 5
+last = N - 1
+for _ in range(K):
+	
+	# 올림 X
+	if B[last] + 1 <= A[last]:
+		B[last] += 1
+	else:
+		# 올림 필요 O
+		i = last
+		# B[i] = 0
+		while i >= 0:
+			if B[i] + 1 <= A[i]:
+				B[i] += 1
+				break
+			else:
+				B[i] = 0
+				i -= 1
+				continue
+
+print(''.join(map(str, B)))
+
+
+
+
