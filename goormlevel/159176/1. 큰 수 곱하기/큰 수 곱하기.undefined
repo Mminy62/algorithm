@@ -1,0 +1,4 @@
+arr = input()
+arr = arr.replace(" ", "")
+arr = arr.replace("1", "")
+print("1" + arr)
