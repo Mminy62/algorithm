@@ -1,0 +1,28 @@
+'''
+N종류의 물품 구매
+i번째로 구매할 물품의 가격은 ci이고, 구름이는 물품을 vi 개 구매한다. 
+
+총 M원이고, 
+예산 범위 안에서 모든 물품을 구매할 수 있으면 구매한 뒤예산
+아니면 No
+
+'''
+N, M = map(int, input().split())
+arr = []
+for _ in range(N):
+	c, v = map(int, input().split())
+	arr.append((c * v))
+
+ans = 0
+for i in range(N):
+	if M - arr[i] >= 0:
+		M -= arr[i]
+		ans = M
+	else:
+		ans = -1
+		break
+
+if ans == -1:
+	print("No")
+else:
+	print(ans)
