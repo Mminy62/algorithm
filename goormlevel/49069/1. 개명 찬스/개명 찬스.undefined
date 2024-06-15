@@ -1,0 +1,14 @@
+'''
+'''
+
+name = input()
+n = len(name)
+idx = -1
+for i in range(n - 1):
+	if name[i] > name[i + 1]:
+		idx = i
+		break
+
+name = name[:i] + name[i + 1:]
+
+print(name)
