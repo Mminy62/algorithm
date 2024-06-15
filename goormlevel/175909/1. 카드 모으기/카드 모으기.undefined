@@ -1,0 +1,36 @@
+'''
+카드를 모으는 게임을 한다
+1-N카드까지 총 N장의 카드
+
+M장이 순서대로 제공되고, 
+
+최소 몇자응ㄹ 받아야 n종류를 다 채울지 확인하는 것
+
+다 받아도 종류가 차지 않으면 -1
+
+정수 N, Md
+'''
+
+N, M = map(int, input().split())
+cards = []
+arr = set()
+
+for _ in range(M):
+	cards.append(int(input()))
+
+ans = 0
+for i in range(M):
+	if len(arr) == N:
+		ans = i
+		break
+	else:
+		arr.add(cards[i])
+
+if not ans:
+	if len(arr) == N:
+		ans = M
+	else:
+		ans = -1
+
+print(ans)
+
