@@ -1,6 +1,4 @@
-import Foundation
-
-let inputCount = readLine()!.components(separatedBy: " ").map { Int($0)! }
+let inputCount = readLine()!.split(separator: " ").map { Int($0)! }
 var N = inputCount[0]
 var M = inputCount[1]
 
