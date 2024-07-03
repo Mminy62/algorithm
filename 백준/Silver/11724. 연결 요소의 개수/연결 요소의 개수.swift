@@ -4,41 +4,54 @@ let inputCount = readLine()!.components(separatedBy: " ").map { Int($0)! }
 var N = inputCount[0]
 var M = inputCount[1]
 
-var visited = [Bool](repeating: false, count: N + 1)
-var edges = [(Int, Int)]()
-var nodes = Array(repeating: [Int](), count: N + 1)
-var result = 0
-
-if M == 0 {
-    result = N
-}
-else {
-    for _ in 1...M {
-        let input = readLine()!.components(separatedBy: " ").map { Int($0)! }
-        let a = input[0]
-        let b = input[1]
-        edges.append((a, b))
-        nodes[a].append(b)
-        nodes[b].append(a)
+struct Graph {
+    var adjList: [[Int]]
+    var visited: [Bool]
+    
+    init(capacity: Int) {
+        self.adjList = Array(repeating: [], count: capacity + 1)
+        self.visited = [Bool](repeating: false, count: capacity + 1)
     }
     
-    for i in 1...N {
-        var queue = [Int]()
-        if !visited[i] {
-            queue.append(i)
-            visited[i] = true
-            
-            while !queue.isEmpty {
-                let num = queue.removeFirst()
-                for node in nodes[num] {
-                    if !visited[node] {
-                        queue.append(node)
-                        visited[node] = true
-                    }
-                }
+    mutating func addEdge(_ u: Int, _ v:Int) {
+        adjList[u].append(v)
+        adjList[v].append(u)
+    }
+    
+    mutating func dfs(start: Int) {
+        visited[start] = true
+        
+        for node in adjList[start] {
+            if !visited[node] {
+                dfs(start: node)
             }
-            result += 1
         }
     }
+    
+    mutating func countComponents() -> Int {
+        var count = 0
+        for i in 1...(visited.count - 1) {
+            if !visited[i] {
+                dfs(start: i)
+                count += 1
+            }
+        }
+        return count
+    }
+}
+
+var graph = Graph(capacity: N)
+var result = 0
+
+if M != 0 {
+    for _ in 1...M {
+        let input = readLine()!.split(separator: " ").map { Int($0)! }
+        let a = input[0]
+        let b = input[1]
+        graph.addEdge(a, b)
+    }
+  result = graph.countComponents()
+} else {
+    result = N
 }
 print(result)
