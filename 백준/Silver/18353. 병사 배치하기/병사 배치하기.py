@@ -1,11 +1,15 @@
+import sys
+input = sys.stdin.readline
 n = int(input())
-soldiers = list(map(int, input().split()))
+arr = list(map(int, input().split()))
+dp = [0] * n
+dp[-1] = 1
 
-soldiers.reverse()
-dp = [1] * n
-for i in range(1, n):
-    for j in range(0, i):
-        if soldiers[i] > soldiers[j]:
-            dp[i] = max(dp[i], dp[j] + 1)
+for i in range(n - 2, -1, -1):
+    for next_i in range(i + 1, n):
+        if arr[i] > arr[next_i]:
+            dp[i] = max(dp[i], dp[next_i] + 1)
+    if dp[i] == 0:
+        dp[i] = 1
 
 print(n - max(dp))
