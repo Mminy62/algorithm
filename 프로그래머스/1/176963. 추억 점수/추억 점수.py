@@ -1,14 +1,12 @@
 def solution(name, yearning, photo):
     answer = []
-    memoryDic = dict()
-    for (name, score) in zip(name, yearning):
-        memoryDic[name] = score
+    memoryDic = dict(zip(name, yearning))
     
     for people in photo:
-        memoryScore = 0
+        score = 0
         for name in people:
-            if name in memoryDic.keys():
-                memoryScore += memoryDic[name]
-        answer.append(memoryScore)
+            if name in memoryDic:
+                score += memoryDic[name]
+        answer.append(score)
 
     return answer
